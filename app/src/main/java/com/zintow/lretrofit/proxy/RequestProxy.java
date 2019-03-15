@@ -11,7 +11,6 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,26 +24,22 @@ public class RequestProxy<T> implements InvocationHandler {
     }
 
     public Object invoke(Object object, Method method, Object[] args) throws Throwable {
-//        method.invoke(subject, args);
+        if (method.getDeclaringClass() == Object.class) {
+            return method.invoke(object, args);
+        }
         doCall(object, method, args);
         return null;
     }
 
     private void doCall(Object object, Method method, Object[] args) {
         RequestEntity requestEntity = paramMap.get(method.getName());
-        if (requestEntity != null) {
-            Log.e(TAG, "methodDo: " + requestEntity.toString() + " : " + Arrays.toString(args));
-        }
-
         List<String> paramList = requestEntity.getParamList();
         HashMap<String, Object> hashMap = new HashMap<>(paramList.size());
         for (int i = 0; i < paramList.size(); i++) {
             hashMap.put(paramList.get(i), args[i]);
         }
 
-        Log.e(TAG, "地址: " + requestEntity.getUrl());
-        Log.e(TAG, "请求类型: " + requestEntity.getType());
-        Log.e(TAG, "参数: " + hashMap.toString());
+        Log.e(TAG, "地址: " + requestEntity.getUrl() + "  请求类型: " + requestEntity.getType() + "  参数: " + hashMap.toString());
     }
 
     /**

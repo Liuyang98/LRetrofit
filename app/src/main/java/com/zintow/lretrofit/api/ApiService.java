@@ -11,7 +11,6 @@ public interface ApiService {
     @POST("https://www.google.com")
     void save(@Param("age") String age);
 
-
     @GET("https://www.yahoo.com")
     void search(@Param("page") int page, @Param("type") String type, @Param("search") String search);
 }
