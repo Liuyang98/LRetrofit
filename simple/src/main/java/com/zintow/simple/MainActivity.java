@@ -1,12 +1,11 @@
-package com.zintow.lretrofit.activity;
+package com.zintow.simple;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.zintow.lretrofit.R;
-import com.zintow.lretrofit.api.ApiService;
 import com.zintow.lretrofit.LRetrofit;
+import com.zintow.simple.api.ApiService;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 

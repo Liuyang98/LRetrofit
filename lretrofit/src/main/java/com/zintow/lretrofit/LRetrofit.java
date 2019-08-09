@@ -11,4 +11,16 @@ public class LRetrofit {
         InvocationHandler handler = new RequestProxy(cls);
         return (T) Proxy.newProxyInstance(handler.getClass().getClassLoader(), new Class<?>[]{cls}, handler);
     }
+
+    public static class Builder {
+
+
+        public Builder baseUrl(String baseUrl) {
+            return this;
+        }
+
+        public LRetrofit build() {
+            return new LRetrofit();
+        }
+    }
 }

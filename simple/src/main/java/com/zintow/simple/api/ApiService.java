@@ -1,4 +1,4 @@
-package com.zintow.lretrofit.api;
+package com.zintow.simple.api;
 
 import com.zintow.lretrofit.anno.GET;
 import com.zintow.lretrofit.anno.POST;
