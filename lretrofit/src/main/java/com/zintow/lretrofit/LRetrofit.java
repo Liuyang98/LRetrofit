@@ -2,15 +2,13 @@ package com.zintow.lretrofit;
 
 import com.zintow.lretrofit.proxy.RequestProxy;
 
-import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 
 public class LRetrofit {
     private String baseUrl;
 
-    //"https://www.baidu.com"
-    public <T> T create(Class<T> service) {
-//        InvocationHandler handler = new RequestProxy(cls);
+    @SuppressWarnings("unchecked") // Single-interface proxy creation guarded by parameter safety.
+    public <T> T create(final Class<T> service) {
         return (T) Proxy.newProxyInstance(service.getClassLoader(), new Class<?>[]{service}, new RequestProxy(service));
     }
 

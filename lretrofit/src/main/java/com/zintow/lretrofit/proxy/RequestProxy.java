@@ -21,13 +21,6 @@ public class RequestProxy<T> implements InvocationHandler {
     private Map<String, RequestEntity> paramMap;
 
     public RequestProxy(Class<T> cls) {
-        initApiEntity(cls);
-    }
-
-    /**
-     * 初始化，遍历方法，获取接口注解信息
-     */
-    private void initApiEntity(Class<T> cls) {
         paramMap = new HashMap<>();
         Method[] methods = cls.getMethods();
         for (Method method : methods) {
@@ -55,17 +48,16 @@ public class RequestProxy<T> implements InvocationHandler {
         if (method.getDeclaringClass() == Object.class) {
             return method.invoke(proxy, args);
         }
-
-        CallInfo callInfo = doCall(proxy, method, args);
-        return callInfo;
+        return doCall(proxy, method, args);
     }
 
-    private CallInfo doCall(Object proxy, Method method, Object[] args) {
+    @SuppressWarnings("unchecked") // Single-interface proxy creation guarded by parameter safety.
+    private T doCall(Object proxy, Method method, Object[] args) {
         RequestEntity requestEntity = paramMap.get(method.getName());
-        if(requestEntity==null){
+        if (requestEntity == null) {
             throw new LRetrofitException(method.getName() + " Method illegal");
         }
-        return CallInfo.newCall(requestEntity,args);
+        return (T) CallInfo.newCall(requestEntity, args);
     }
 
     /**

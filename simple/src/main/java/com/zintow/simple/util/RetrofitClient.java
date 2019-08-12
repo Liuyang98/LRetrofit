@@ -39,8 +39,6 @@ public class RetrofitClient {
         try {
             retrofit = new LRetrofit.Builder()
                     .baseUrl(BASE_URL)
-//                    .addConverterFactory(GsonConverterFactory.create())
-//                    .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
 //                    .client(getOkHttpClient())
                     .build();
         } catch (Exception e) {
@@ -69,26 +67,5 @@ public class RetrofitClient {
         });
         okHttpClient = builder.build();
     }
-//
-//    public static ApiService create() {
-//        return getInstance().create(ApiService.class);
-//    }
-//
-//    public static void request(Observable observable, BaseSubscriber subscriber) {
-//        observable.subscribeOn(Schedulers.io())
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(subscriber);
-//    }
-//
-//    public static boolean isSuccess(int code, String msg) {
-//        boolean success = isSuccess(code);
-//        if (!success) {
-//            Toast.makeText(HotCarApplication.getContext(), msg, Toast.LENGTH_SHORT).show();
-//            if (code == Allem.LOAD_RESULT.TOKEN_TIMEOUT) {
-//                User.loginOut();
-//            }
-//        }
-//        return success;
-//    }
 
 }
