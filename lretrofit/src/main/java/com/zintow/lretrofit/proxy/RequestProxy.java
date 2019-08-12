@@ -1,11 +1,12 @@
 package com.zintow.lretrofit.proxy;
 
-import android.util.Log;
 
 import com.zintow.lretrofit.anno.GET;
 import com.zintow.lretrofit.anno.POST;
 import com.zintow.lretrofit.anno.Param;
+import com.zintow.lretrofit.entity.CallInfo;
 import com.zintow.lretrofit.entity.RequestEntity;
+import com.zintow.lretrofit.exception.LRetrofitException;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
@@ -21,25 +22,6 @@ public class RequestProxy<T> implements InvocationHandler {
 
     public RequestProxy(Class<T> cls) {
         initApiEntity(cls);
-    }
-
-    public Object invoke(Object object, Method method, Object[] args) throws Throwable {
-        if (method.getDeclaringClass() == Object.class) {
-            return method.invoke(object, args);
-        }
-        doCall(object, method, args);
-        return null;
-    }
-
-    private void doCall(Object object, Method method, Object[] args) {
-        RequestEntity requestEntity = paramMap.get(method.getName());
-        List<String> paramList = requestEntity.getParamList();
-        HashMap<String, Object> hashMap = new HashMap<>(paramList.size());
-        for (int i = 0; i < paramList.size(); i++) {
-            hashMap.put(paramList.get(i), args[i]);
-        }
-
-        Log.e(TAG, "地址: " + requestEntity.getUrl() + "  请求类型: " + requestEntity.getType() + "  参数: " + hashMap.toString());
     }
 
     /**
@@ -61,11 +43,29 @@ public class RequestProxy<T> implements InvocationHandler {
                 value = ((POST) annotation).value();
                 type = "POST";
             }
-
-            if (!list.isEmpty()) {
-                paramMap.put(method.getName(), new RequestEntity(list, value, type));
-            }
+            paramMap.put(method.getName(), new RequestEntity(list, value, type));
         }
+
+        if (paramMap.isEmpty()) {
+            throw new LRetrofitException(cls.getName() + " No network request was registered");
+        }
+    }
+
+    public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+        if (method.getDeclaringClass() == Object.class) {
+            return method.invoke(proxy, args);
+        }
+
+        CallInfo callInfo = doCall(proxy, method, args);
+        return callInfo;
+    }
+
+    private CallInfo doCall(Object proxy, Method method, Object[] args) {
+        RequestEntity requestEntity = paramMap.get(method.getName());
+        if(requestEntity==null){
+            throw new LRetrofitException(method.getName() + " Method illegal");
+        }
+        return CallInfo.newCall(requestEntity,args);
     }
 
     /**

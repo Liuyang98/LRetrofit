@@ -69,10 +69,10 @@ public class RetrofitClient {
         });
         okHttpClient = builder.build();
     }
-
-    public static ApiService create() {
-        return getInstance().create(ApiService.class);
-    }
+//
+//    public static ApiService create() {
+//        return getInstance().create(ApiService.class);
+//    }
 //
 //    public static void request(Observable observable, BaseSubscriber subscriber) {
 //        observable.subscribeOn(Schedulers.io())
