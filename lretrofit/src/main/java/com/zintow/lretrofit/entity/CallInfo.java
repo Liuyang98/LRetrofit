@@ -9,7 +9,7 @@ public class CallInfo {
     private String suffixUrl;
     private String type;
 
-    private CallInfo(String baseUrl, RequestEntity entity, Object[] args) {
+    private CallInfo(String baseUrl, RequestMethodInfo entity, Object[] args) {
         callInfoMap = new HashMap<>();
         this.baseUrl = baseUrl;
         this.suffixUrl = entity.getUrl();
@@ -20,7 +20,7 @@ public class CallInfo {
         }
     }
 
-    public static CallInfo newCall(String baseUrl, RequestEntity entity, Object[] args) {
+    public static CallInfo newCall(String baseUrl, RequestMethodInfo entity, Object[] args) {
         return new CallInfo(baseUrl, entity, args);
     }
 

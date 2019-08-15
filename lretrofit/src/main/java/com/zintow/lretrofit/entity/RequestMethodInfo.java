@@ -2,12 +2,12 @@ package com.zintow.lretrofit.entity;
 
 import java.util.List;
 
-public class RequestEntity {
+public class RequestMethodInfo {
     private List<String> paramList;
     private String url;
     private String type;
 
-    public RequestEntity(List<String> paramList, String url, String type) {
+    public RequestMethodInfo(List<String> paramList, String url, String type) {
         this.paramList = paramList;
         this.url = url;
         this.type = type;
@@ -27,7 +27,7 @@ public class RequestEntity {
 
     @Override
     public String toString() {
-        return "RequestEntity{" +
+        return "RequestMethodInfo{" +
                 "paramList=" + paramList.toString() +
                 ", url='" + url + '\'' +
                 ", type='" + type + '\'' +

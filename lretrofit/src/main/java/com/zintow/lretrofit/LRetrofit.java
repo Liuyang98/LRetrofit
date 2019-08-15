@@ -4,7 +4,7 @@ import com.zintow.lretrofit.anno.GET;
 import com.zintow.lretrofit.anno.POST;
 import com.zintow.lretrofit.anno.Param;
 import com.zintow.lretrofit.entity.CallInfo;
-import com.zintow.lretrofit.entity.RequestEntity;
+import com.zintow.lretrofit.entity.RequestMethodInfo;
 import com.zintow.lretrofit.exception.LRetrofitException;
 
 import java.lang.annotation.Annotation;
@@ -18,7 +18,7 @@ import java.util.Map;
 
 public class LRetrofit {
     private final String baseUrl;
-    private Map<String, RequestEntity> serviceMethodCache;
+    private Map<String, RequestMethodInfo> serviceMethodCache;
 
     @SuppressWarnings("unchecked") // Single-interface proxy creation guarded by parameter safety.
     public <T> T create(final Class<T> service) {
@@ -29,7 +29,7 @@ public class LRetrofit {
                 if (method.getDeclaringClass() == Object.class) {
                     return method.invoke(proxy, args);
                 }
-                RequestEntity requestEntity = serviceMethodCache.get(method.getName());
+                RequestMethodInfo requestEntity = serviceMethodCache.get(method.getName());
                 if (requestEntity == null) {
                     throw new LRetrofitException(method.getName() + " Method illegal");
                 }
@@ -55,7 +55,7 @@ public class LRetrofit {
                     value = ((POST) annotation).value();
                     type = "POST";
                 }
-                serviceMethodCache.put(method.getName(), new RequestEntity(list, value, type));
+                serviceMethodCache.put(method.getName(), new RequestMethodInfo(list, value, type));
             }
         }
         if (serviceMethodCache.isEmpty()) {
