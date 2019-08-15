@@ -20,6 +20,10 @@ public class LRetrofit {
     private final String baseUrl;
     private Map<String, RequestMethodInfo> serviceMethodCache;
 
+    private LRetrofit(String baseUrl) {
+        this.baseUrl = baseUrl;
+    }
+
     @SuppressWarnings("unchecked") // Single-interface proxy creation guarded by parameter safety.
     public <T> T create(final Class<T> service) {
         eagerlyValidateMethods(service);
@@ -84,10 +88,6 @@ public class LRetrofit {
             }
         }
         return list;
-    }
-
-    private LRetrofit(String baseUrl) {
-        this.baseUrl = baseUrl;
     }
 
     public static class Builder {
