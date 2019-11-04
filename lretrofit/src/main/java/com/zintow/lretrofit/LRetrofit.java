@@ -77,6 +77,7 @@ public class LRetrofit {
         List<String> list = new ArrayList<>();
         Annotation[][] parameterAnnotations = method.getParameterAnnotations();
         if (parameterAnnotations.length == 0) {
+
             return list;
         }
         for (Annotation[] parameterAnnotation : parameterAnnotations) {
