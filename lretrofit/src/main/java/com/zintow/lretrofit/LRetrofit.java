@@ -93,7 +93,6 @@ public class LRetrofit {
     public static class Builder {
         private String httpUrl;
 
-
         public Builder baseUrl(String httpUrl) {
             this.httpUrl = httpUrl;
             return this;
